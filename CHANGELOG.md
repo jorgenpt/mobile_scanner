@@ -1,3 +1,8 @@
+## NEXT
+
+Improvements:
+* [iOS] Prefer cameras with shorter focal length to help focusing on bar codes up close.
+
 ## 3.0.0
 This big release contains all improvements from the beta releases.
 In addition to that, this release contains:

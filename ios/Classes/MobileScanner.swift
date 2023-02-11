@@ -110,6 +110,14 @@ public class MobileScanner: NSObject, AVCaptureVideoDataOutputSampleBufferDelega
         }
     }
 
+    func deviceTypes() -> [AVCaptureDevice.DeviceType] {
+        if #available(iOS 13.0, *) {
+            return [.builtInTripleCamera, .builtInDualWideCamera, .builtInUltraWideCamera, .builtInWideAngleCamera]
+        } else {
+            return [.builtInDualWideCamera, .builtInUltraWideCamera, .builtInWideAngleCamera]
+        }
+    }
+
     /// Start scanning for barcodes
     func start(barcodeScannerOptions: BarcodeScannerOptions?, returnImage: Bool, cameraPosition: AVCaptureDevice.Position, torch: AVCaptureDevice.TorchMode, detectionSpeed: DetectionSpeed) throws -> MobileScannerStartParameters {
         self.detectionSpeed = detectionSpeed
@@ -121,12 +129,7 @@ public class MobileScanner: NSObject, AVCaptureVideoDataOutputSampleBufferDelega
         captureSession = AVCaptureSession()
         textureId = registry?.register(self)
 
-        // Open the camera device
-        if #available(iOS 10.0, *) {
-            device = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: cameraPosition).devices.first
-        } else {
-            device = AVCaptureDevice.devices(for: .video).filter({$0.position == cameraPosition}).first
-        }
+        device = AVCaptureDevice.DiscoverySession(deviceTypes: deviceTypes(), mediaType: .video, position: cameraPosition).devices.first
 
         if (device == nil) {
             throw MobileScannerError.noCamera
