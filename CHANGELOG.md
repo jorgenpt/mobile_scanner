@@ -2,6 +2,7 @@
 
 Improvements:
 * [iOS] Prefer cameras with shorter focal length to help focusing on bar codes up close.
+* [iOS] No longer automatically focus on faces
 
 ## 3.0.0
 This big release contains all improvements from the beta releases.
